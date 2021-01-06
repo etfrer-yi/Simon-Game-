@@ -79,3 +79,15 @@ for (var i = 0; i < allButtons.length; i++) {
 
  });
 }
+
+function buttonPressAnimation(button) {
+  // Sound effect
+  var sound = new Audio("sounds/" + button + ".mp3");
+  sound.play();
+
+  // Button click animation
+  $("div#" + button).addClass("pressed");
+  setTimeout(function() {
+    $("div#" + button).removeClass("pressed");
+  }, 200);
+}

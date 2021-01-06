@@ -9,9 +9,17 @@ $(document).keydown(function() {
   if (newGame === true) {
     gamePattern = [];
     nextSequence();
+    currentAttemptNumber += 1;
   }
   newGame = false;
 })
+
+// Show the max level achieved and the current attempt number
+var maxLevelAchieved = 0;
+var currentAttemptNumber = 0;
+$(".max-level").text(maxLevelAchieved);
+$(".current-attempt").text(currentAttemptNumber);
+
 
 function checkAnswer(currentLevel) {
   var latestClickIndex = userClickedPattern.length;
@@ -48,35 +56,20 @@ function nextSequence() {
 
   // Make PC choose a random color, then play its sound and show it being pushed
   var randomNumber = Math.floor(Math.random() * 4);
-  var randomChosenColour = buttonColours[randomNumber];
-  var sound = new Audio("sounds/" + randomChosenColour + ".mp3");
-  sound.play();
-  // $("div#" + randomChosenColour).fadeOut().fadeIn();
-
-  $("div#" + randomChosenColour).addClass("pressed");
-  setTimeout(function () {
-    $("div#" + randomChosenColour).removeClass("pressed");
-  }, 200);
+  var buttonChosen = buttonColours[randomNumber];
+  buttonPressAnimation(buttonChosen);
 
   // Append the generated button click to gamePattern
-  gamePattern.push(randomChosenColour);
+  gamePattern.push(buttonChosen);
   console.log(gamePattern);
 }
 
 // Add sound and fading effects when clicked
 var allButtons = document.querySelectorAll(".btn");
-
 for (var i = 0; i < allButtons.length; i++) {
   allButtons[i].addEventListener("click", function() {
-    var button = this.classList[1];
-    var sound = new Audio("sounds/" + this.classList[1] + ".mp3"); // Use this :D; but whyyyy?
-    sound.play();
-    // $("div#" + this.classList[1]).fadeOut().fadeIn();
-    $("div#" + this.classList[1]).addClass("pressed");
-    setTimeout(function() {
-      $("div#" + button).removeClass("pressed");
-    }, 200);
-
+    var buttonChosen = this.classList[1];
+    buttonPressAnimation(buttonChosen);
  });
 }
 

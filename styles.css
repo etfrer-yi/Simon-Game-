@@ -2,19 +2,32 @@ body {
   text-align: center;
   background-color: #011F3F;
   font-family: 'Press Start 2P', cursive;
+  color: #FEF2BF;
 }
 
 #level-title {
   font-size: 3rem;
   margin:  5%;
-  color: #FEF2BF;
 }
 
 .container {
-  display: block;
+  display: inline-block;
   width: 50%;
   margin: auto;
+}
 
+.container-side {
+  width: 250px;
+  height: 250px;
+  margin: 150px 30px;
+}
+
+.level-holder {
+  float: left;
+}
+
+.attempt-holder {
+  float: right;
 }
 
 .btn {

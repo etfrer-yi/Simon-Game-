@@ -4,48 +4,69 @@ var gamePattern = [];
 var userClickedPattern = [];
 var level = 0;
 var newGame = true;
+var maxLevelAchieved = 0;
+var currentAttemptNumber = 0;
 
+// Show the initial level achieved
+$(".max-level").text(maxLevelAchieved);
+$(".current-attempt").text(currentAttemptNumber);
+
+// When a round has ended, allow player to click on any key to restart another round
 $(document).keydown(function() {
   if (newGame === true) {
     gamePattern = [];
     nextSequence();
     currentAttemptNumber += 1;
+    $(".current-attempt").text(currentAttemptNumber)
   }
   newGame = false;
 })
-
-// Show the max level achieved and the current attempt number
-var maxLevelAchieved = 0;
-var currentAttemptNumber = 0;
-$(".max-level").text(maxLevelAchieved);
-$(".current-attempt").text(currentAttemptNumber);
 
 
 function checkAnswer(currentLevel) {
   var latestClickIndex = userClickedPattern.length;
   if (userClickedPattern[latestClickIndex-1] !== gamePattern[latestClickIndex-1]) {
-    $("body").addClass("game-over");
-    var sound = new Audio("sounds/wrong.mp3"); // Use this :D; but whyyyy?
+
+    // Make game over sound
+    var sound = new Audio("sounds/wrong.mp3");
     sound.play();
+
+    // Add visual aspects of game over
+    $("body").addClass("game-over");
     setTimeout(function() {
       $("body").removeClass("game-over");
     }, 100);
     $("h1").text("Game Over! Press Any Key to Replay");
-    newGame = true;
+
+    // Update the max level achieved board
+    if (level > maxLevelAchieved) {
+      maxLevelAchieved = level;
+      $(".max-level").text(maxLevelAchieved);
+    }
+
+    // Reinitializing variables for a new round
     level = 0;
+    newGame = true;
+
   } else if (latestClickIndex === currentLevel) {
     setTimeout(nextSequence, 700);
   }
 }
 
-// Append the user-clicked color to userClickedPattern
+// Append the user-clicked color to the array userClickedPattern
 $("div.btn").click(function(event) {
-  var userChosenColour = event.target.id;// note this means that clicking on any button will lead to h1 being green
+  var userChosenColour = event.target.id;
+  // note this means that clicking on any button will lead to h1 being green
   userClickedPattern.push(userChosenColour);
   console.log(userClickedPattern);
-  checkAnswer(level);
-});
 
+  // Check the current user click against the correct computer click ONLY the game is not over
+  if (newGame === false) {
+    checkAnswer(level);
+  }
+})
+
+// Define what should happen after a player finishes a round
 function nextSequence() {
   // Empty the user's pattern of the previous round;
   userClickedPattern = [];
@@ -73,6 +94,8 @@ for (var i = 0; i < allButtons.length; i++) {
  });
 }
 
+// Define the animations that should occur when either the player or the computer
+//   clicks a button
 function buttonPressAnimation(button) {
   // Sound effect
   var sound = new Audio("sounds/" + button + ".mp3");

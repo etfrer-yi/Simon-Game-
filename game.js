@@ -12,21 +12,35 @@ $(".max-level").text(maxLevelAchieved);
 $(".current-attempt").text(currentAttemptNumber);
 
 // When a round has ended, allow player to click on any key to restart another round
-$(document).keydown(function() {
-  if (newGame === true) {
-    gamePattern = [];
-    nextSequence();
-    currentAttemptNumber += 1;
-    $(".current-attempt").text(currentAttemptNumber)
-  }
-  newGame = false;
-})
+// $(document).keydown(function() {
+//   if (newGame === true) {
+//     gamePattern = [];
+//     nextSequence();
+//     currentAttemptNumber += 1;
+//     $(".current-attempt").text(currentAttemptNumber);
+//     console.log("New GAME");
+//     newGame = false;
+//   }
+// })
+if (newGame === true) {
+  $(document).keydown(function() {
+      gamePattern = [];
+      nextSequence();
+      currentAttemptNumber += 1;
+      $(".current-attempt").text(currentAttemptNumber);
+      console.log("New GAME");
+      newGame = false;
+  })
+}
 
 
+// Define a way of checking the last user click against the series of clicks made
 function checkAnswer(currentLevel) {
   var latestClickIndex = userClickedPattern.length;
-  if (userClickedPattern[latestClickIndex-1] !== gamePattern[latestClickIndex-1]) {
 
+  // If the last user click does not correspond to the right pattern by the PC
+  if (userClickedPattern[latestClickIndex-1] !== gamePattern[latestClickIndex-1]) {
+    console.log("Not equal");
     // Make game over sound
     var sound = new Audio("sounds/wrong.mp3");
     sound.play();
@@ -47,8 +61,10 @@ function checkAnswer(currentLevel) {
     // Reinitializing variables for a new round
     level = 0;
     newGame = true;
+  }
 
-  } else if (latestClickIndex === currentLevel) {
+  // If the last user click does correspond to the right pattern by the PC
+  else if (latestClickIndex === currentLevel) {
     setTimeout(nextSequence, 700);
   }
 }
@@ -58,7 +74,7 @@ $("div.btn").click(function(event) {
   var userChosenColour = event.target.id;
   // note this means that clicking on any button will lead to h1 being green
   userClickedPattern.push(userChosenColour);
-  console.log(userClickedPattern);
+  console.log("The userClickedPattern is " + userClickedPattern);
 
   // Check the current user click against the correct computer click ONLY the game is not over
   if (newGame === false) {
@@ -79,10 +95,11 @@ function nextSequence() {
   var randomNumber = Math.floor(Math.random() * 4);
   var buttonChosen = buttonColours[randomNumber];
   buttonPressAnimation(buttonChosen);
+  console.log("The generated color is " + buttonChosen);
 
   // Append the generated button click to gamePattern
   gamePattern.push(buttonChosen);
-  console.log(gamePattern);
+  console.log("The gamePattern is " + gamePattern);
 }
 
 // Add sound and fading effects when clicked

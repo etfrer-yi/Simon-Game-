@@ -8,4 +8,4 @@ The game uses HTML, CSS, and JS. I used jQuery and implemented event listeners t
 
 Courtesy of Angela Yu's Web Dev Bootcamp on UdeMy for the sounds and CSS.
 
-Click on "See project" link to play the game!
+Link:  https://etfrer-yi.github.io/Simon-Game-/

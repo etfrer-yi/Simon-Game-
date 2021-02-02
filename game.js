@@ -25,33 +25,40 @@ function checkAnswer(currentLevel) {
   // If the last user click does not correspond to the right pattern by the PC
   if (userClickedPattern[latestClickIndex-1] !== gamePattern[latestClickIndex-1]){
     console.log("Not equal");
-
-    // Update the max level achieved board
-    if (level > maxLevelAchieved) {
-      maxLevelAchieved = level;
-      $(".max-level").text(maxLevelAchieved);
-    }
-
-    // Make game over sound
-    let sound = new Audio("sounds/wrong.mp3");
-    sound.play();
-
-    // Add visual aspects of game over
-    $("body").addClass("game-over");
-    setTimeout(function() {
-      $("body").removeClass("game-over");
-    }, 100);
-    $("h1").text("Game Over! Press Any Key to Replay");
-
-    // Reinitializing letiables for a new round
-    level = 0;
-    newGame = true;
+    endGame();
   }
 
   // If the last user click does correspond to the right pattern by the PC
   else if (latestClickIndex === currentLevel) {
     setTimeout(nextSequence, 700);
   }
+}
+
+// endGame() details what should happen when the user pattern no longer matches
+//   the game pattern. It plays the game over sound, displays the message and
+//   the red screen flash associated with the game end, and
+//   may update the maxLevelAchieved.
+function endGame() {
+  // Update the max level achieved board
+  if (level > maxLevelAchieved) {
+    maxLevelAchieved = level;
+    $(".max-level").text(maxLevelAchieved);
+  }
+
+  // Make game over sound
+  let sound = new Audio("sounds/wrong.mp3");
+  sound.play();
+
+  // Add visual aspects of game over
+  $("body").addClass("game-over");
+  setTimeout(function() {
+    $("body").removeClass("game-over");
+  }, 100);
+  $("h1").text("Game Over! Press Any Key to Replay");
+
+  // Reinitializing letiables for a new round
+  level = 0;
+  newGame = true;
 }
 
 

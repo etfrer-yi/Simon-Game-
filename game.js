@@ -34,6 +34,7 @@ function checkAnswer(currentLevel) {
   }
 }
 
+
 // endGame() details what should happen when the user pattern no longer matches
 //   the game pattern. It plays the game over sound, displays the message and
 //   the red screen flash associated with the game end, and
@@ -100,6 +101,10 @@ function buttonPressAnimation(button) {
   }, 200);
 }
 
+
+// EVENT LISTENERS & TEXT QUERY SELECTORS ======================================
+
+
 // Add sound and fading effects when clicked
 let allButtons = document.querySelectorAll(".btn");
 for (let i = 0; i < allButtons.length; i++) {
@@ -108,9 +113,6 @@ for (let i = 0; i < allButtons.length; i++) {
     buttonPressAnimation(buttonChosen);
  });
 }
-
-
-// EVENT LISTENERS & TEXT QUERY SELECTORS ======================================
 
 
 // Show the initial level achieved

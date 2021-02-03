@@ -8,6 +8,7 @@ let level = 0;
 let newGame = true;
 let maxLevelAchieved = 0;
 let currentAttemptNumber = 0;
+let btnValid = true;
 
 
 // FUNCTION DEFINITIONS ========================================================
@@ -30,6 +31,7 @@ function checkAnswer(currentLevel) {
 
   // If the last user click does correspond to the right pattern by the PC
   else if (latestClickIndex === currentLevel) {
+    btnValid = false;
     setTimeout(nextSequence, 700);
   }
 }
@@ -63,10 +65,12 @@ function endGame() {
 }
 
 
-// nextSeqquence() produces what should happen when the game ushers into the
+// nextSequence() produces what should happen when the game ushers into the
 //   next level. It empties the pattern of player moves, updates the level,
 //   and generates a new computer move that is appended to the gamePattern.
 function nextSequence() {
+  btnValid = true;
+  
   // Empty the user's pattern of the previous round;
   userClickedPattern = [];
 
@@ -136,17 +140,19 @@ $(document).keydown(function() {
 
 // Append the user-clicked color to the array userClickedPattern
 $("div.btn").click(function(event) {
-  let userChosenColour = event.target.id;
-  // note this means that clicking on any button will lead to h1 being green
+  if (btnValid) {
+    let userChosenColour = event.target.id;
+      // note this means that clicking on any button will lead to h1 being green
 
-  userClickedPattern.push(userChosenColour);
+    userClickedPattern.push(userChosenColour);
 
-  console.log("The userClickedPattern is " + userClickedPattern);
-  console.log("The gamePattern when clicked is " + gamePattern);
+    console.log("The userClickedPattern is " + userClickedPattern);
+    console.log("The gamePattern when clicked is " + gamePattern);
 
-  // Check the current user click against the correct computer click ONLY the
-  //   game is not over
-  if (newGame === false) {
-    checkAnswer(level);
+      // Check the current user click against the correct computer click ONLY the
+      //   game is not over
+    if (newGame === false) {
+      checkAnswer(level);
+    }
   }
 })
